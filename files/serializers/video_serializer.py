@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from files.models import Video
-from files.serializers import CategorySerializer
+from files.serializers.category_serializer import CategorySerializer
 
 DOMAIN = settings.DOMAIN
 
