@@ -1,3 +1,7 @@
+media/
+venv/
+temp/
+core
+**/__pycache__/
 .idea
-.venv
 .env
