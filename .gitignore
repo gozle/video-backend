@@ -4,5 +4,5 @@ temp/
 core
 **/__pycache__/
 .idea
-.env/
+.env
 static/
