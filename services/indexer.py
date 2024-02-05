@@ -51,7 +51,10 @@ def index_channel_callback(message, queue):
     videos = get_videos_of_channel(channel["channel_id"])
     print("[GOT VIDEOS, FILTERING...]")
 
-    valid_videos = filter_videos(videos, add_video, channel["channel_id"])
+    valid_videos = filter_videos(videos)
+    db.connections.close_all()
+    for metadata in valid_videos:
+        add_video(metadata, channel["channel_id"])
 
     print("[DONE] ", channel["title"])
 
@@ -82,12 +85,13 @@ def main():
     db.connections.close_all()
     threads = []
     for queue in queues:
-        threads.append(
-            StoppableThread(
-                target=start_consumer,
-                args=(queue,)
+        for i in range(10):
+            threads.append(
+                StoppableThread(
+                    target=start_consumer,
+                    args=(queue,)
+                )
             )
-        )
     for thread in threads:
         thread.start()
 

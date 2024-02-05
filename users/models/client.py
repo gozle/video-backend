@@ -14,8 +14,7 @@ class Client(models.Model):
     resource_uri = models.CharField(max_length=250)
 
     def save(self, *args, **kwargs):
-        using = kwargs.get('using') or 'default'
-        if not self.pk and Client.objects.using(using).exists():
+        if not self.pk and Client.objects.using(kwargs['using']).exists():
             # if you'll not check for self.pk
             # then error will also be raised in the update of exists model
             raise ValidationError('There is can be only one client instance')

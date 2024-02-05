@@ -1,4 +1,3 @@
-from django import db
 from django.conf import settings
 from services.utils.functions import remove_emojis, download_image
 
@@ -66,7 +65,6 @@ def create_video(metadata, channel_id):
         return False
 
     if is_exists_video(metadata.get('id')):
-        print('Video already exists', metadata.get('id'))
         return
 
     video = Video.objects.create(

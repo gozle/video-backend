@@ -68,7 +68,9 @@ def get_videos_of_channel(channel_url):
     return playlist.videos
 
 
-def filter_videos(videos, add_video, channel_id):
+def filter_videos(videos):
+    valid_videos = []
+
     for video in videos:
         try:
             try:
@@ -91,24 +93,21 @@ def filter_videos(videos, add_video, channel_id):
                 metadata['title'] = info_dict['fulltitle']
                 metadata['description'] = info_dict['description']
                 metadata['duration'] = info_dict['duration']
+                print(metadata['id'], metadata['title'], metadata['duration'] // 60, 'minutes')
                 metadata['thumbnail_url'] = info_dict['thumbnail']
                 metadata['published_at'] = datetime.datetime.strptime(info_dict['upload_date'], '%Y%m%d')
                 if metadata['duration'] and metadata['duration'] > 7200:
                     print('[DURATION IS TOO LARGE]')
                     continue
                 if metadata['published_at'] > datetime.datetime.now() - datetime.timedelta(days=365):
-                    print(metadata['id'], metadata['title'], metadata['duration'] // 60, 'minutes')
-                    try:
-                        add_video(metadata, channel_id)
-                    except:
-                        db.connections.close_all()
-                        add_video(metadata, channel_id)
+                    valid_videos.append(metadata)
                 # else:
                 #     print("[INVALID]", metadata["title"])
         except Exception as e:
 
             print("[ERROR]", e)
             continue
+    return valid_videos
 
 
 def format_selector(ctx):

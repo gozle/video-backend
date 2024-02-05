@@ -5,12 +5,10 @@ from files.models import Video, Ad, Channel, Category, Icon, ChannelToDownload, 
 
 class VideoAdmin(admin.ModelAdmin):
     search_fields = ['title']
-    exclude = ['ignore_users']
 
 
 class VideoInline(admin.TabularInline):
     model = Video
-    exclude = ['ignore_users']
 
 
 class ChannelAdmin(admin.ModelAdmin):
