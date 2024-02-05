@@ -25,7 +25,7 @@ class VideoSerializer(ModelSerializer):
                 self.fields.pop(field_name)
 
     def get_category_names(self, obj):
-        return CategorySerializer(obj.channel.categories.all(), many=True, context=self.context).data
+        return CategorySerializer(obj.category.all(), many=True, context=self.context).data
 
     @staticmethod
     def get_m3u8(obj):
