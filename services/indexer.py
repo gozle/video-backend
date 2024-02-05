@@ -81,13 +81,14 @@ def main():
     ]
     db.connections.close_all()
     threads = []
-    for queue in queues:
-        threads.append(
-            StoppableThread(
-                target=start_consumer,
-                args=(queue,)
+    for i in range(5):
+        for queue in queues:
+            threads.append(
+                StoppableThread(
+                    target=start_consumer,
+                    args=(queue,)
+                )
             )
-        )
     for thread in threads:
         thread.start()
 
