@@ -48,7 +48,7 @@ def searchVideo(request):
     # Pagination
     paginator = PageNumberPagination()
     if not videos.exists():
-        return Response({})
+        return Response([])
     paginator.page_size = page_size
 
     # Paginate result
