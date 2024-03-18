@@ -48,7 +48,7 @@ def get_video(request, pk):
 def search_video(request):
     q = request.GET.get('q')
 
-     # Get pagination data from request
+    # Get pagination data from request
     page_size = int(request.GET.get('amount', 10))
 
     # Search from elasticsearch
@@ -72,16 +72,17 @@ def search_video(request):
 
     # Pagination
     paginator = PageNumberPagination()
-    if not videos.exists():
-        return Response([])
     paginator.page_size = page_size
+
+    if not videos.exists():
+        return Response(paginator.get_paginated_response([]))
 
     # Paginate result
     result_page = paginator.paginate_queryset(queryset=videos, request=request)
 
     serializer = VideoSerializer(result_page, many=True, context={
         "lang": request.GET.get('lang'), 'remove_fields': ['category']})
-    return Response(serializer.data)
+    return paginator.get_paginated_response(serializer.data)
 
 
 @api_view(('GET',))
@@ -117,15 +118,16 @@ def search_video_web(request):
 
     # Pagination
     paginator = PageNumberPagination()
-    if not videos.exists():
-        return Response([])
     paginator.page_size = page_size
+
+    if not videos.exists():
+        return Response(paginator.get_paginated_response([]))
 
     # Paginate result
     result_page = paginator.paginate_queryset(queryset=videos, request=request)
 
     serializer = VideoSerializer(result_page, many=True, context={"lang": request.GET.get('lang')})
-    return Response(serializer.data)
+    return paginator.get_paginated_response(serializer.data)
 
 
 @api_view(('GET',))
