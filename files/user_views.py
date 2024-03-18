@@ -74,9 +74,6 @@ def search_video(request):
     paginator = PageNumberPagination()
     paginator.page_size = page_size
 
-    if not videos.exists():
-        return Response(paginator.get_paginated_response([]))
-
     # Paginate result
     result_page = paginator.paginate_queryset(queryset=videos, request=request)
 
@@ -119,9 +116,6 @@ def search_video_web(request):
     # Pagination
     paginator = PageNumberPagination()
     paginator.page_size = page_size
-
-    if not videos.exists():
-        return Response(paginator.get_paginated_response([]))
 
     # Paginate result
     result_page = paginator.paginate_queryset(queryset=videos, request=request)
