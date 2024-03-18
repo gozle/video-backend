@@ -2,8 +2,8 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["v.gozle.com.tm", 'localhost', '172.16.1.215']
-CSRF_TRUSTED_ORIGINS = ['https://v.gozle.com.tm']
+ALLOWED_HOSTS = ["video-api.gozle.org", 'localhost', '172.16.1.215']
+CSRF_TRUSTED_ORIGINS = ['https://video-api.gozle.org']
 
 RABBITMQ = {
     "host": "172.16.1.92",
@@ -15,7 +15,7 @@ RABBITMQ = {
     "exchange": "video_parser"
 }
 SERVER = 5
-DOMAIN = 'https://v.gozle.com.tm'
+DOMAIN = 'https://video-api.gozle.org'
 
 MEDIA_ROOT = '/data/projects/video.gozle/film/db'
 TEMP_PATH = '/data/projects/video.gozle/film/db/temp/'
