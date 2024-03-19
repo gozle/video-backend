@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["v.gozle.com.tm", 'localhost', '172.16.1.215']
+ALLOWED_HOSTS = ["video-api.gozle.org", '172.16.1.215']
 
 RABBITMQ = {
     "host": "172.16.1.92",
