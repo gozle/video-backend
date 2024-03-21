@@ -51,24 +51,27 @@ def search_video(request):
     # Get pagination data from request
     page_size = int(request.GET.get('amount', 10))
 
-    # Search from elasticsearch
-    search_document = VideoDocument()
-    query = Q('bool',
-              should=[
-                  Q('bool', should=[
-                      Q('match', **{'title': {'query': q, 'fuzziness': 1, 'boost': 2}}),
-                  ]),
-                  Q('bool', should=[
-                      Q('match', **{'description': {'query': q}}),
-                  ])
-              ]
-              )
-    search = search_document.search().query(query)[:250]
-    objects = search.execute()
+    if q and q.strip():
+        # Search from elasticsearch
+        search_document = VideoDocument()
+        query = Q('bool',
+                  should=[
+                      Q('bool', should=[
+                          Q('match', **{'title': {'query': q, 'fuzziness': 1, 'boost': 2}}),
+                      ]),
+                      Q('bool', should=[
+                          Q('match', **{'description': {'query': q}}),
+                      ])
+                  ]
+                  )
+        search = search_document.search().query(query)[:250]
+        objects = search.execute()
 
-    # Get videos for result objects
-    ids = [obj.id for obj in objects]
-    videos = Video.objects.exclude(m3u8=None).exclude(m3u8='').filter(id__in=ids)
+        # Get videos for result objects
+        ids = [obj.id for obj in objects]
+        videos = Video.objects.exclude(m3u8=None).exclude(m3u8='').filter(id__in=ids)
+    else:
+        videos = Video.objects.exclude(m3u8=None).exclude(m3u8='')
 
     # Pagination
     paginator = PageNumberPagination()
